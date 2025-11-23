@@ -9,53 +9,53 @@ COMP3810SEF / COMPS381F Group Project - Autumn 2025
 **Description:** A web application where users can upload, share, play music, create playlists, and discuss music with other users.
 
 **Group Info:** 
-- Group Number: [Your Group Number]
-- Student Name: [Your Name]
-- Student ID: [Your SID]
+- Group Number: 50
+- Student Name: Wong Tsz Fung, Wan Kai Ho, Cheung Hoi Him, Holly Lei Stephenson
 
-## Project Files
+## Project Files Structure
 
 ### Main Files
 
-- **server.js**: Main server file that configures Express.js, connects to MongoDB, sets up session management, and defines all routes
-- **package.json**: Lists all project dependencies including Express, Mongoose, EJS, Multer, and session management packages
+- **server.js**: Main server file that sets up Express.js application, connects to MongoDB database, configures session management, and defines all application routes.
+
+- **package.json**: Contains project metadata and lists all dependencies including Express, Mongoose, EJS, Multer, and session management packages.
 
 ### Folders
 
-- **models/**: Contains Mongoose schemas for database collections
-  - `User.js`: User account model (username, password, email)
-  - `Song.js`: Song model (title, artist, album, genre, year, filename, uploadedBy)
-  - `Playlist.js`: Playlist model (name, description, owner, songs array)
-  - `Post.js`: Forum post model (content, author, related song)
+- **models/**: Contains Mongoose schema definitions for database collections
+  - `User.js`: User account schema with username, password, and email fields
+  - `Song.js`: Song schema with title, artist, album, genre, year, and file information
+  - `Playlist.js`: Playlist schema with name, description, owner, and array of songs
+  - `Post.js`: Forum post schema with content, author, and optional related song
 
-- **routes/**: Contains all route handlers
-  - `authRoutes.js`: Handles registration, login, and logout
-  - `songRoutes.js`: Handles song CRUD operations (upload, view, edit, delete)
+- **routes/**: Contains route handlers for different application features
+  - `authRoutes.js`: Handles user registration, login, and logout functionality
+  - `songRoutes.js`: Handles song CRUD operations including upload, view, edit, and delete
   - `playlistRoutes.js`: Handles playlist CRUD operations
-  - `forumRoutes.js`: Handles forum posts (create, view, delete)
-  - `apiRoutes.js`: RESTful API endpoints (no authentication required)
+  - `forumRoutes.js`: Handles forum post creation, viewing, and deletion
+  - `apiRoutes.js`: Provides RESTful API endpoints without authentication requirements
 
-- **views/**: Contains EJS templates for all pages
+- **views/**: Contains EJS template files for rendering web pages
   - `index.ejs`: Home page
-  - `register.ejs`, `login.ejs`: Authentication pages
+  - `register.ejs`, `login.ejs`: User authentication pages
   - `songs.ejs`, `uploadSong.ejs`, `editSong.ejs`: Song management pages
-  - `playlists.ejs`, `createPlaylist.ejs`, `playlistDetail.ejs`: Playlist pages
-  - `forum.ejs`: Forum/discussion page
+  - `playlists.ejs`, `createPlaylist.ejs`, `playlistDetail.ejs`: Playlist management pages
+  - `forum.ejs`: Forum discussion page
 
-- **middleware/**: Contains custom middleware
-  - `auth.js`: Authentication middleware (isLoggedIn function)
+- **middleware/**: Contains custom middleware functions
+  - `auth.js`: Authentication middleware to protect routes
 
-- **public/**: Contains static files
-  - `css/style.css`: Main stylesheet
-  - `uploads/`: Directory for uploaded music files (created automatically)
+- **public/**: Contains static files served to client
+  - `css/style.css`: Main stylesheet for application
+  - `uploads/`: Directory for storing uploaded music files
 
 ## Cloud Server URL
 
 **Production URL:** [Your deployment URL here]
 
-Example: `https://jolly-beats.onrender.com`
+Example: https://jolly-beats.onrender.com
 
-## Setup Instructions
+## Setup and Installation
 
 ### 1. Install Dependencies
 
@@ -63,255 +63,319 @@ Example: `https://jolly-beats.onrender.com`
 npm install
 ```
 
-### 2. MongoDB Setup
+### 2. MongoDB Configuration
 
-#### Option A: Local MongoDB (Development)
-- Make sure MongoDB is installed and running on your Ubuntu server
-- Create a `.env` file based on `.env.example`
+#### Local MongoDB (Development)
+- Install and run MongoDB on your system
+- Create a `.env` file in project root
 - Set `MONGODB_URI=mongodb://localhost:27017/jollybeats`
 
-#### Option B: MongoDB Atlas (Cloud - Recommended for Production)
+#### MongoDB Atlas (Cloud - Production)
 - Create a free account at https://www.mongodb.com/cloud/atlas
 - Create a new cluster
 - Get your connection string
-- Create a `.env` file and set:
+- Add to `.env` file:
   ```
   MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/jollybeats
-  SESSION_SECRET=your-random-secret-key
+  SESSION_SECRET=your-secret-key
   PORT=3000
   ```
 
 ### 3. Run the Application
 
-**Development (localhost):**
+**Development:**
 ```bash
 npm start
 ```
 
-**Production (server):**
+**Production:**
 ```bash
 npm start
 ```
 
-The server will run on port 3000 by default. Visit `http://localhost:3000` (or your server IP/domain).
+The server will run on port 3000 by default. Access at `http://localhost:3000`.
 
-## Operation Guides
+## Application Features
 
 ### 1. User Authentication
 
-#### Register a New Account
-1. Go to the home page
-2. Click "Register" button
-3. Fill in:
-   - Username (minimum 3 characters)
-   - Email address
-   - Password (minimum 6 characters)
-4. Click "Register" button
-5. You will be redirected to the login page
+#### Registration
+- Navigate to registration page
+- Enter username (minimum 3 characters)
+- Enter email address
+- Enter password (minimum 6 characters)
+- Submit form to create account
 
 #### Login
-1. Go to the home page or `/login`
-2. Enter your username and password
-3. Click "Login" button
-4. You will be redirected to the Songs page
-
-**Test Accounts:** (You need to register your own accounts)
+- Navigate to login page
+- Enter username and password
+- Submit form to access application
 
 #### Logout
-- Click the "Logout" button in the navigation bar on any page after login
+- Click logout button in navigation bar
+- Session will be destroyed and user redirected to home page
 
----
+### 2. Song Management (CRUD Operations)
 
-### 2. CRUD Web Pages (Requires Login)
+#### Create (Upload Song)
+- After login, navigate to Songs page
+- Click "Upload New Song" button
+- Fill in required fields:
+  - Title (required)
+  - Artist (required)
+  - Album (optional)
+  - Genre (optional)
+  - Year (optional)
+  - Duration (optional)
+- Select music file (mp3, wav, ogg, m4a format, maximum 10MB)
+- Click "Upload Song" button
 
-#### Songs Management
+#### Read (Browse Songs)
+- Navigate to Songs page
+- View all uploaded songs in table format
+- Use search functionality:
+  - Search by title, artist, or album
+  - Filter by genre
+  - Filter by artist
+- Click "Search" button or "Clear" to reset filters
 
-**Create (Upload Song):**
-1. After login, go to "Songs" page
-2. Click "Upload New Song" button
-3. Fill in song details:
-   - Title * (required)
-   - Artist * (required)
-   - Album (optional)
-   - Genre (optional)
-   - Year (optional)
-   - Duration (optional)
-   - Select music file * (mp3, wav, ogg, m4a - max 10MB)
-4. Click "Upload Song" button
+#### Update (Edit Song)
+- Navigate to Songs page
+- Locate song you uploaded
+- Click "Edit" button (only available for songs you uploaded)
+- Modify song details
+- Click "Update Song" button
 
-**Read (Browse/Search Songs):**
-1. Go to "Songs" page
-2. View all uploaded songs in a table
-3. Use search filters:
-   - Search by title, artist, or album
-   - Filter by genre
-   - Filter by artist
-4. Click "Search" button or "Clear" to reset
+#### Delete Song
+- Navigate to Songs page
+- Locate song you uploaded
+- Click "Delete" button (only available for songs you uploaded)
+- Confirm deletion
 
-**Update (Edit Song):**
-1. Go to "Songs" page
-2. Find your uploaded song
-3. Click "Edit" button (only available for your own songs)
-4. Update song details
-5. Click "Update Song" button
+#### Play Music
+- Click play button on audio player in Songs table
+- Audio will stream from database
 
-**Delete Song:**
-1. Go to "Songs" page
-2. Find your uploaded song
-3. Click "Delete" button (only available for your own songs)
-4. Confirm deletion
+### 3. Playlist Management
 
-**Play Songs:**
-- Click the play button on the audio player in the Songs table
+#### Create Playlist
+- Navigate to Playlists page
+- Click "Create New Playlist" button
+- Enter playlist name (required)
+- Enter description (optional)
+- Click "Create Playlist" button
 
-#### Playlists Management
+#### View Playlists
+- Navigate to Playlists page
+- View all your playlists
+- Click "View Details" to see songs in playlist
 
-**Create Playlist:**
-1. Go to "Playlists" page
-2. Click "Create New Playlist" button
-3. Enter playlist name (required) and description (optional)
-4. Click "Create Playlist" button
+#### Add Songs to Playlist
+- Open playlist details page
+- Select song from dropdown menu
+- Click "Add Song" button
 
-**Read (View Playlists):**
-1. Go to "Playlists" page
-2. View all your playlists as cards
-3. Click "View Details" to see songs in a playlist
+#### Remove Songs from Playlist
+- Open playlist details page
+- Click "Remove" button next to song
 
-**Update (Add/Remove Songs):**
-1. Click "View Details" on a playlist
-2. To add: Select a song from dropdown and click "Add Song"
-3. To remove: Click "Remove" button next to a song
+#### Delete Playlist
+- Navigate to Playlists page
+- Click "Delete" button on playlist
+- Confirm deletion
 
-**Delete Playlist:**
-1. Go to "Playlists" page
-2. Click "Delete" button on a playlist card
-3. Confirm deletion
+### 4. Forum Discussion
 
-#### Forum/Discussion
+#### Create Post
+- Navigate to Forum page
+- Enter message content (maximum 500 characters)
+- Optionally select related song
+- Click "Post" button
 
-**Create Post:**
-1. Go to "Forum" page
-2. Enter your message (max 500 characters)
-3. Optionally select a related song
-4. Click "Post" button
+#### View Posts
+- Navigate to Forum page
+- View all posts in chronological order
 
-**Read Posts:**
-1. Go to "Forum" page
-2. View all posts in chronological order (newest first)
+#### Delete Post
+- Locate your own post
+- Click "Delete" button
+- Confirm deletion
 
-**Delete Post:**
-1. Find your own post
-2. Click "Delete" button
-3. Confirm deletion
+## RESTful API Endpoints
 
----
+All API endpoints return JSON responses. Authentication is not required for API access.
 
-### 3. RESTful API Services (No Authentication Required)
+### Songs API
 
-All API endpoints return JSON responses.
-
-#### Read All Songs (GET)
+**Get All Songs**
 ```bash
-curl -X GET http://localhost:3000/api/songs
+GET /api/songs
 ```
+Returns list of all songs with metadata.
 
-**Response:**
-```json
+**Get Single Song**
+```bash
+GET /api/songs/:id
+```
+Returns single song by ID.
+
+**Create Song**
+```bash
+POST /api/songs
+Content-Type: application/json
+
 {
-  "success": true,
-  "count": 5,
-  "data": [...]
+  "title": "Song Title",
+  "artist": "Artist Name",
+  "album": "Album Name",
+  "genre": "Genre",
+  "year": 2024,
+  "duration": "3:45",
+  "filename": "file.mp3",
+  "uploadedBy": "user_id"
 }
 ```
 
-#### Read Single Song by ID (GET)
+**Update Song**
 ```bash
-curl -X GET http://localhost:3000/api/songs/[SONG_ID]
+PUT /api/songs/:id
+Content-Type: application/json
+
+{
+  "title": "Updated Title",
+  "artist": "Updated Artist",
+  "album": "Updated Album",
+  "genre": "Updated Genre",
+  "year": 2024,
+  "duration": "4:20"
+}
 ```
 
-#### Create Song (POST)
+**Delete Song**
 ```bash
+DELETE /api/songs/:id
+```
+
+### Playlists API
+
+**Get All Playlists**
+```bash
+GET /api/playlists
+```
+
+### Posts API
+
+**Get All Forum Posts**
+```bash
+GET /api/posts
+```
+
+## CURL Testing Commands
+
+For demonstration purposes:
+
+```bash
+# Get all songs
+curl -X GET http://localhost:3000/api/songs
+
+# Get one song (replace SONG_ID)
+curl -X GET http://localhost:3000/api/songs/SONG_ID
+
+# Create song (replace USER_ID)
 curl -X POST http://localhost:3000/api/songs \
   -H "Content-Type: application/json" \
-  -d '{
-    "title": "Test Song",
-    "artist": "Test Artist",
-    "album": "Test Album",
-    "genre": "Pop",
-    "year": 2024,
-    "duration": "3:45",
-    "filename": "test.mp3",
-    "uploadedBy": "[USER_ID]"
-  }'
-```
+  -d '{"title":"Test Song","artist":"Test Artist","filename":"test.mp3","uploadedBy":"USER_ID"}'
 
-#### Update Song (PUT)
-```bash
-curl -X PUT http://localhost:3000/api/songs/[SONG_ID] \
+# Update song (replace SONG_ID)
+curl -X PUT http://localhost:3000/api/songs/SONG_ID \
   -H "Content-Type: application/json" \
-  -d '{
-    "title": "Updated Song Title",
-    "artist": "Updated Artist",
-    "album": "Updated Album",
-    "genre": "Rock",
-    "year": 2024,
-    "duration": "4:20"
-  }'
-```
+  -d '{"title":"Updated Title","artist":"Updated Artist"}'
 
-#### Delete Song (DELETE)
-```bash
-curl -X DELETE http://localhost:3000/api/songs/[SONG_ID]
-```
+# Delete song (replace SONG_ID)
+curl -X DELETE http://localhost:3000/api/songs/SONG_ID
 
-#### Read All Playlists (GET)
-```bash
+# Get playlists
 curl -X GET http://localhost:3000/api/playlists
-```
 
-#### Read All Forum Posts (GET)
-```bash
+# Get posts
 curl -X GET http://localhost:3000/api/posts
 ```
 
----
-
-## Features
-
-✅ User Registration and Login (Session-based authentication)  
-✅ Upload music files (mp3, wav, ogg, m4a)  
-✅ Play songs with HTML5 audio player  
-✅ Search and filter songs by title, artist, genre  
-✅ Create and manage playlists  
-✅ Add/remove songs to/from playlists  
-✅ Forum for music discussion  
-✅ RESTful API endpoints for CRUD operations  
-✅ Form validation on all inputs  
-✅ User can only edit/delete their own content  
-✅ Responsive design  
-
 ## Technologies Used
 
-- **Backend:** Node.js with Express.js
-- **Database:** MongoDB with Mongoose ODM (GridFS for file storage)
+- **Backend Framework:** Node.js with Express.js
+- **Database:** MongoDB with Mongoose ODM
+- **File Storage:** MongoDB GridFS for music file storage
 - **Template Engine:** EJS
 - **Session Management:** express-session with connect-mongo
-- **File Upload:** Multer with GridFS
-- **Deployment:** Can be deployed on any cloud platform (Render, Railway, etc.)
+- **File Upload:** Multer
+- **Deployment:** Cloud platform (Render, Railway, or similar)
 
-## Security Notes
+## Implementation Details
 
+### Authentication
 - Session-based authentication using express-session
+- Session data stored in MongoDB using connect-mongo
 - Password validation (minimum 6 characters)
 - Username validation (minimum 3 characters)
-- File upload validation (type and size)
-- User authorization (can only modify own content)
-- Input validation on all forms
+
+### File Storage
+- Music files stored in MongoDB using GridFS
+- Files split into chunks for efficient storage
+- Maximum file size: 10MB
+- Supported formats: mp3, wav, ogg, m4a
+
+### Authorization
+- Users can only edit or delete their own content
+- Authentication required for all CRUD web pages
+- API endpoints do not require authentication
+
+### Input Validation
+- All form inputs validated on server side
+- Required field validation
+- File type and size validation
+- Content length validation for forum posts
+
+## Database Collections
+
+The application uses the following MongoDB collections:
+
+- `users`: User account information
+- `songs`: Song metadata and file references
+- `playlists`: Playlist information and song references
+- `posts`: Forum post content
+- `sessions`: User session data
+- `uploads.files`: GridFS file metadata
+- `uploads.chunks`: GridFS file data chunks
+
+## Deployment Instructions
+
+### Deploy to Render.com
+
+1. Push code to GitHub repository
+2. Create new Web Service on Render
+3. Connect GitHub repository
+4. Configure build settings:
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+5. Add environment variables:
+   - `MONGODB_URI`: MongoDB connection string
+   - `SESSION_SECRET`: Secret key for sessions
+   - `PORT`: 3000
+6. Deploy application
+
+### Deploy to Railway.app
+
+1. Push code to GitHub repository
+2. Create new project on Railway
+3. Connect GitHub repository
+4. Add environment variables
+5. Deploy application
 
 ## Notes
 
-- Music files are currently stored in the `public/uploads` directory
-- Maximum file upload size: 10MB
-- Supported audio formats: mp3, wav, ogg, m4a
-- Forum posts are limited to 500 characters
-
+- Music files are stored in MongoDB database using GridFS
+- Application uses simple password storage (suitable for educational projects)
+- Session-based authentication as taught in course lectures
+- MVC architecture pattern implemented
+- RESTful API design principles followed

@@ -1,11 +1,11 @@
-// RESTful API Routes (No authentication required)
+// API Routes
 const express = require('express');
 const router = express.Router();
 const Song = require('../models/Song');
 const Playlist = require('../models/Playlist');
 const Post = require('../models/Post');
 
-// API - Read all songs (GET)
+// Get all songs
 router.get('/songs', async (req, res) => {
   try {
     const songs = await Song.find().populate('uploadedBy', 'username');
@@ -23,7 +23,7 @@ router.get('/songs', async (req, res) => {
   }
 });
 
-// API - Read single song by ID (GET)
+// Get one song
 router.get('/songs/:id', async (req, res) => {
   try {
     const song = await Song.findById(req.params.id).populate('uploadedBy', 'username');
@@ -48,7 +48,7 @@ router.get('/songs/:id', async (req, res) => {
   }
 });
 
-// API - Create song (POST)
+// Create song
 router.post('/songs', async (req, res) => {
   try {
     const { title, artist, album, genre, year, duration, filename, uploadedBy } = req.body;
@@ -88,7 +88,7 @@ router.post('/songs', async (req, res) => {
   }
 });
 
-// API - Update song (PUT)
+// Update song
 router.put('/songs/:id', async (req, res) => {
   try {
     const { title, artist, album, genre, year, duration } = req.body;
@@ -135,7 +135,7 @@ router.put('/songs/:id', async (req, res) => {
   }
 });
 
-// API - Delete song (DELETE)
+// Delete song
 router.delete('/songs/:id', async (req, res) => {
   try {
     const song = await Song.findByIdAndDelete(req.params.id);
@@ -161,7 +161,7 @@ router.delete('/songs/:id', async (req, res) => {
   }
 });
 
-// API - Read all playlists (GET)
+// Get all playlists
 router.get('/playlists', async (req, res) => {
   try {
     const playlists = await Playlist.find()
@@ -182,7 +182,7 @@ router.get('/playlists', async (req, res) => {
   }
 });
 
-// API - Read all forum posts (GET)
+// Get all posts
 router.get('/posts', async (req, res) => {
   try {
     const posts = await Post.find()

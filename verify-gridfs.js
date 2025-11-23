@@ -1,4 +1,4 @@
-// Verification Script - Check if music files are in MongoDB
+// Check if music files are in MongoDB
 // Run this after uploading songs to verify they're in the database
 
 const mongoose = require('mongoose');

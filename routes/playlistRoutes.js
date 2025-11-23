@@ -5,7 +5,7 @@ const Playlist = require('../models/Playlist');
 const Song = require('../models/Song');
 const { isLoggedIn } = require('../middleware/auth');
 
-// Read - List all playlists
+// List all playlists
 router.get('/', isLoggedIn, async (req, res) => {
   try {
     const playlists = await Playlist.find({ owner: req.session.user.id })
@@ -18,12 +18,12 @@ router.get('/', isLoggedIn, async (req, res) => {
   }
 });
 
-// Create - New playlist form
+// New playlist form
 router.get('/create', isLoggedIn, (req, res) => {
   res.render('createPlaylist', { error: null });
 });
 
-// Create - Create POST
+// Create playlist
 router.post('/create', isLoggedIn, async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -49,7 +49,7 @@ router.post('/create', isLoggedIn, async (req, res) => {
   }
 });
 
-// Read - View playlist details
+// View playlist details
 router.get('/:id', isLoggedIn, async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id)
@@ -75,7 +75,7 @@ router.get('/:id', isLoggedIn, async (req, res) => {
   }
 });
 
-// Update - Add song to playlist
+// Add song to playlist
 router.post('/:id/add-song', isLoggedIn, async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
@@ -112,7 +112,7 @@ router.post('/:id/add-song', isLoggedIn, async (req, res) => {
   }
 });
 
-// Update - Remove song from playlist
+// Remove song from playlist
 router.post('/:id/remove-song/:songId', isLoggedIn, async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);
@@ -137,7 +137,7 @@ router.post('/:id/remove-song/:songId', isLoggedIn, async (req, res) => {
   }
 });
 
-// Delete - Delete playlist
+// Delete playlist
 router.post('/delete/:id', isLoggedIn, async (req, res) => {
   try {
     const playlist = await Playlist.findById(req.params.id);

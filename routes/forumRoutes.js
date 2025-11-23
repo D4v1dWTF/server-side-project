@@ -1,11 +1,11 @@
-// Forum Routes (Discussion)
+// Forum Routes
 const express = require('express');
 const router = express.Router();
 const Post = require('../models/Post');
 const Song = require('../models/Song');
 const { isLoggedIn } = require('../middleware/auth');
 
-// Read - List all posts
+// List all posts
 router.get('/', isLoggedIn, async (req, res) => {
   try {
     const posts = await Post.find()
@@ -22,7 +22,7 @@ router.get('/', isLoggedIn, async (req, res) => {
   }
 });
 
-// Create - Create new post
+// Create new post
 router.post('/create', isLoggedIn, async (req, res) => {
   try {
     const { content, songId } = req.body;
@@ -61,7 +61,7 @@ router.post('/create', isLoggedIn, async (req, res) => {
   }
 });
 
-// Delete - Delete post
+// Delete post
 router.post('/delete/:id', isLoggedIn, async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);

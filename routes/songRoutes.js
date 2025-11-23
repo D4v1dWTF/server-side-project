@@ -1,4 +1,4 @@
-// Song Routes (CRUD)
+// Song Routes
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
@@ -23,7 +23,7 @@ const storage = multer.memoryStorage();
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit
+  limits: { fileSize: 10 * 1024 * 1024 }
   fileFilter: (req, file, cb) => {
     const allowedTypes = /mp3|wav|ogg|m4a/;
     const extname = allowedTypes.test(file.originalname.toLowerCase());
@@ -36,13 +36,13 @@ const upload = multer({
   }
 });
 
-// Read - List all songs with search
+// List all songs
 router.get('/', isLoggedIn, async (req, res) => {
   try {
     const { search, genre, artist } = req.query;
     let query = {};
     
-    // Search functionality
+    // Search songs
     if (search) {
       query.$or = [
         { title: { $regex: search, $options: 'i' } },
@@ -67,12 +67,12 @@ router.get('/', isLoggedIn, async (req, res) => {
   }
 });
 
-// Create - Upload form
+// Upload form
 router.get('/upload', isLoggedIn, (req, res) => {
   res.render('uploadSong', { error: null });
 });
 
-// Create - Upload POST
+// Upload song
 router.post('/upload', isLoggedIn, upload.single('songFile'), async (req, res) => {
   try {
     if (!req.file) {
@@ -106,7 +106,7 @@ router.post('/upload', isLoggedIn, upload.single('songFile'), async (req, res) =
       genre: genre || '',
       year: year || null,
       duration: duration || '',
-      filename: uploadStream.id.toString(), // Store GridFS file ID
+      filename: uploadStream.id.toString(),
       uploadedBy: req.session.user.id
     });
     
@@ -118,7 +118,7 @@ router.post('/upload', isLoggedIn, upload.single('songFile'), async (req, res) =
   }
 });
 
-// Update - Edit form
+// Edit form
 router.get('/edit/:id', isLoggedIn, async (req, res) => {
   try {
     const song = await Song.findById(req.params.id);
@@ -139,7 +139,7 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
   }
 });
 
-// Update - Edit POST
+// Update song
 router.post('/edit/:id', isLoggedIn, async (req, res) => {
   try {
     const song = await Song.findById(req.params.id);

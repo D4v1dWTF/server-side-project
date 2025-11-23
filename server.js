@@ -1,5 +1,5 @@
 // Jolly Beats Server
-// COMP3810SEF Project - Music sharing platform
+// Music sharing platform
 
 const express = require('express');
 const mongoose = require('mongoose');

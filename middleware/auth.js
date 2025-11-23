@@ -1,5 +1,5 @@
 // Authentication Middleware
-// Simple session-based authentication as taught in Lecture 7
+// Check if user is logged in
 
 function isLoggedIn(req, res, next) {
   if (req.session.user) {
