@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= playlist.name %> - Jolly Beats</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><a href="/">🎵 Jolly Beats</a></h1>
+      <nav>
+        <a href="/songs">Songs</a>
+        <a href="/playlists">Playlists</a>
+        <a href="/forum">Forum</a>
+        <a href="/logout" class="btn-logout">Logout (<%= user.username %>)</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <div class="playlist-detail-header">
+        <h2>📝 <%= playlist.name %></h2>
+        <p><%= playlist.description || 'No description' %></p>
+        <p class="playlist-meta">Created by <%= playlist.owner.username %> on <%= new Date(playlist.createdAt).toLocaleDateString() %></p>
+        <a href="/playlists" class="btn btn-secondary">Back to Playlists</a>
+      </div>
+
+      <div class="playlist-content">
+        <!-- Add Song to Playlist -->
+        <div class="add-song-box">
+          <h3>Add Song to Playlist</h3>
+          <form action="/playlists/<%= playlist._id %>/add-song" method="POST" class="inline-form">
+            <select name="songId" required>
+              <option value="">Select a song...</option>
+              <% allSongs.forEach(song => { %>
+                <option value="<%= song._id %>"><%= song.title %> - <%= song.artist %></option>
+              <% }); %>
+            </select>
+            <button type="submit" class="btn btn-primary">Add Song</button>
+          </form>
+        </div>
+
+        <!-- Playlist Songs -->
+        <h3>Songs in this Playlist (<%= playlist.songs.length %>)</h3>
+        
+        <% if (playlist.songs.length === 0) { %>
+          <p class="no-data">No songs in this playlist yet. Add some songs above!</p>
+        <% } else { %>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Artist</th>
+                <th>Album</th>
+                <th>Genre</th>
+                <th>Play</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% playlist.songs.forEach(song => { %>
+                <tr>
+                  <td><%= song.title %></td>
+                  <td><%= song.artist %></td>
+                  <td><%= song.album || '-' %></td>
+                  <td><%= song.genre || '-' %></td>
+                  <td>
+                    <audio controls>
+                      <source src="/songs/stream/<%= song.filename %>" type="audio/mpeg">
+                      Your browser does not support audio playback.
+                    </audio>
+                  </td>
+                  <td class="actions">
+                    <form action="/playlists/<%= playlist._id %>/remove-song/<%= song._id %>" method="POST" style="display:inline;">
+                      <button type="submit" class="btn-small btn-danger">Remove</button>
+                    </form>
+                  </td>
+                </tr>
+              <% }); %>
+            </tbody>
+          </table>
+        <% } %>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Jolly Beats</p>
+    </footer>
+  </div>
+</body>
+</html>
+

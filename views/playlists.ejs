@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Playlists - Jolly Beats</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><a href="/">🎵 Jolly Beats</a></h1>
+      <nav>
+        <a href="/songs">Songs</a>
+        <a href="/playlists">Playlists</a>
+        <a href="/forum">Forum</a>
+        <a href="/logout" class="btn-logout">Logout (<%= user.username %>)</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <h2>My Playlists</h2>
+        <a href="/playlists/create" class="btn btn-primary">Create New Playlist</a>
+      </div>
+
+      <div class="playlists-grid">
+        <% if (playlists.length === 0) { %>
+          <p class="no-data">You don't have any playlists yet. Create one to get started!</p>
+        <% } else { %>
+          <% playlists.forEach(playlist => { %>
+            <div class="playlist-card">
+              <h3><%= playlist.name %></h3>
+              <p class="playlist-description"><%= playlist.description || 'No description' %></p>
+              <p class="playlist-info">
+                <span>📀 <%= playlist.songs.length %> songs</span>
+                <span>📅 <%= new Date(playlist.createdAt).toLocaleDateString() %></span>
+              </p>
+              <div class="playlist-actions">
+                <a href="/playlists/<%= playlist._id %>" class="btn btn-secondary">View Details</a>
+                <form action="/playlists/delete/<%= playlist._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this playlist?');">
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+              </div>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Jolly Beats</p>
+    </footer>
+  </div>
+</body>
+</html>
+
