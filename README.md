@@ -1,6 +1,6 @@
 # Jolly Beats - Music Sharing Platform
 
-COMP3810SEF / COMPS381F Group Project - Autumn 2025
+COMP3810SEF Group Project
 
 ## Project Information
 
