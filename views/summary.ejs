@@ -1,0 +1,76 @@
+<% const title = 'Summary'; const body = `
+<div class="page-header">
+    <h1>Financial Summary</h1>
+    <a href="/transactions" class="btn btn-secondary">Back to Transactions</a>
+</div>
+
+<form method="GET" action="/summary" class="filter-form">
+    <div class="form-row">
+        <div class="form-group">
+            <label>Month</label>
+            <select name="month">
+                <% months.forEach(m => { %>
+                <option value="<%= m %>" <%= selectedMonth === m ? 'selected' : '' %>><%= m %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Year</label>
+            <select name="year">
+                <% years.forEach(y => { %>
+                <option value="<%= y %>" <%= selectedYear === y ? 'selected' : '' %>><%= y %></option>
+                <% }) %>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Filter</button>
+        </div>
+    </div>
+</form>
+
+<div class="summary-stats">
+    <div class="card">
+        <h3>Total Income</h3>
+        <p class="balance positive">$<%= totalIncome.toFixed(2) %></p>
+    </div>
+    <div class="card">
+        <h3>Total Expenses</h3>
+        <p class="balance negative">$<%= totalExpenses.toFixed(2) %></p>
+    </div>
+    <div class="card">
+        <h3>Net</h3>
+        <p class="balance <%= (totalIncome - totalExpenses) >= 0 ? 'positive' : 'negative' %>">$<%= (totalIncome - totalExpenses).toFixed(2) %></p>
+    </div>
+</div>
+
+<div class="chart-container">
+    <h2>Expenses by Category</h2>
+    <canvas id="pieChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const chartData = <%- JSON.stringify(chartData) %>;
+    const ctx = document.getElementById('pieChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: chartData.map(d => d.label),
+            datasets: [{
+                data: chartData.map(d => d.value),
+                backgroundColor: chartData.map(d => d.color)
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'right'
+                }
+            }
+        }
+    });
+</script>
+`; %>
+<%- include('layout') %>
+

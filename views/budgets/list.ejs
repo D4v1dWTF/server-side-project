@@ -1,0 +1,42 @@
+<% const title = 'Budgets'; const body = `
+<div class="page-header">
+    <h1>Budgets</h1>
+    <a href="/budgets/create" class="btn btn-primary">Create Budget</a>
+</div>
+
+<% if (budgets && budgets.length > 0) { %>
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Month</th>
+            <th>Budget Amount</th>
+            <th>Spent</th>
+            <th>Remaining</th>
+            <th>Percentage</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% budgets.forEach(b => { %>
+        <tr>
+            <td><%= b.monthYear %></td>
+            <td>$<%= b.budgetAmount.toFixed(2) %></td>
+            <td>$<%= b.currentSpent.toFixed(2) %></td>
+            <td>$<%= (b.budgetAmount - b.currentSpent).toFixed(2) %></td>
+            <td><%= ((b.currentSpent / b.budgetAmount) * 100).toFixed(1) %>%</td>
+            <td>
+                <a href="/budgets/<%= b._id %>/edit" class="btn btn-small">Edit</a>
+                <form method="POST" action="/budgets/<%= b._id %>/delete" style="display:inline;" onsubmit="return confirm('Delete this budget?')">
+                    <button type="submit" class="btn btn-small btn-danger">Delete</button>
+                </form>
+            </td>
+        </tr>
+        <% }) %>
+    </tbody>
+</table>
+<% } else { %>
+<p>No budgets set. <a href="/budgets/create">Create one</a></p>
+<% } %>
+`; %>
+<%- include('../layout') %>
+

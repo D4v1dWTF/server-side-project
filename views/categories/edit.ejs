@@ -1,0 +1,20 @@
+<% const title = 'Edit Category'; const body = `
+<div class="page-header">
+    <h1>Edit Category</h1>
+    <a href="/categories" class="btn btn-secondary">Back</a>
+</div>
+
+<form method="POST" action="/categories/<%= category._id %>/edit" class="main-form">
+    <div class="form-group">
+        <label for="name">Category Name</label>
+        <input type="text" id="name" name="name" value="<%= category.name %>" maxlength="50" required>
+    </div>
+    <div class="form-group">
+        <label for="color">Color</label>
+        <input type="color" id="color" name="color" value="<%= category.color %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+`; %>
+<%- include('../layout') %>
+

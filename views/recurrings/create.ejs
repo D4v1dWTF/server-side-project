@@ -1,0 +1,70 @@
+<% const title = 'Create Recurring Transaction'; const body = `
+<div class="page-header">
+    <h1>Create Recurring Transaction</h1>
+    <a href="/recurrings" class="btn btn-secondary">Back</a>
+</div>
+
+<form method="POST" action="/recurrings/create" class="main-form">
+    <div class="form-group">
+        <label for="type">Type</label>
+        <select id="type" name="type" required>
+            <option value="deposit">Deposit</option>
+            <option value="withdrawal">Withdrawal</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="accountType">Account</label>
+        <select id="accountType" name="accountType" required>
+            <option value="current">Current</option>
+            <option value="savings">Savings</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" id="amount" name="amount" step="0.01" min="0.01" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" maxlength="200" required>
+    </div>
+    <div class="form-group">
+        <label for="category">Category</label>
+        <select id="category" name="category">
+            <option value="">Uncategorized</option>
+            <% if (typeof categories !== 'undefined' && categories) { %>
+            <% categories.forEach(cat => { %>
+            <option value="<%= cat.name %>"><%= cat.name %></option>
+            <% }) %>
+            <% } %>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="frequency">Frequency</label>
+        <select id="frequency" name="frequency" required>
+            <option value="daily">Daily</option>
+            <option value="weekly">Weekly</option>
+            <option value="monthly">Monthly</option>
+        </select>
+    </div>
+    <div class="form-group" id="dayOfMonthGroup">
+        <label for="dayOfMonth">Day of Month (1-31)</label>
+        <input type="number" id="dayOfMonth" name="dayOfMonth" min="1" max="31">
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<script>
+    document.getElementById('frequency').addEventListener('change', function() {
+        const dayGroup = document.getElementById('dayOfMonthGroup');
+        if (this.value === 'monthly') {
+            dayGroup.style.display = 'block';
+            document.getElementById('dayOfMonth').required = true;
+        } else {
+            dayGroup.style.display = 'none';
+            document.getElementById('dayOfMonth').required = false;
+        }
+    });
+</script>
+`; %>
+<%- include('../layout') %>
+

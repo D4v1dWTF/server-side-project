@@ -1,0 +1,24 @@
+<% const title = 'Create Goal'; const body = `
+<div class="page-header">
+    <h1>Create Savings Goal</h1>
+    <a href="/goals" class="btn btn-secondary">Back</a>
+</div>
+
+<form method="POST" action="/goals/create" class="main-form">
+    <div class="form-group">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" maxlength="200" required>
+    </div>
+    <div class="form-group">
+        <label for="targetAmount">Target Amount</label>
+        <input type="number" id="targetAmount" name="targetAmount" step="0.01" min="0.01" required>
+    </div>
+    <div class="form-group">
+        <label for="deadline">Deadline</label>
+        <input type="date" id="deadline" name="deadline" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+`; %>
+<%- include('../layout') %>
+

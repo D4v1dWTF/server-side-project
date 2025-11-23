@@ -1,0 +1,21 @@
+<% const title = 'Create Budget'; const body = `
+<div class="page-header">
+    <h1>Create Budget</h1>
+    <a href="/budgets" class="btn btn-secondary">Back</a>
+</div>
+
+<form method="POST" action="/budgets/create" class="main-form">
+    <div class="form-group">
+        <label for="monthYear">Month (YYYY-MM)</label>
+        <input type="text" id="monthYear" name="monthYear" pattern="\\d{4}-\\d{2}" placeholder="2025-11" required>
+        <small>Format: YYYY-MM (e.g., 2025-11)</small>
+    </div>
+    <div class="form-group">
+        <label for="budgetAmount">Budget Amount</label>
+        <input type="number" id="budgetAmount" name="budgetAmount" step="0.01" min="0.01" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
+</form>
+`; %>
+<%- include('../layout') %>
+

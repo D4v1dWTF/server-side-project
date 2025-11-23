@@ -1,0 +1,31 @@
+<% const title = 'Goals'; const body = `
+<div class="page-header">
+    <h1>Savings Goals</h1>
+    <a href="/goals/create" class="btn btn-primary">Create Goal</a>
+</div>
+
+<% if (goals && goals.length > 0) { %>
+<div class="goals-list">
+    <% goals.forEach(goal => { %>
+    <div class="goal-item">
+        <h3><%= goal.description %></h3>
+        <p>Target: $<%= goal.targetAmount.toFixed(2) %> | Progress: $<%= goal.currentProgress.toFixed(2) %></p>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: <%= Math.min(100, (goal.currentProgress / goal.targetAmount) * 100) %>%"></div>
+        </div>
+        <p>Deadline: <%= new Date(goal.deadline).toLocaleDateString() %></p>
+        <div class="goal-actions">
+            <a href="/goals/<%= goal._id %>/edit" class="btn btn-small">Edit</a>
+            <form method="POST" action="/goals/<%= goal._id %>/delete" style="display:inline;" onsubmit="return confirm('Delete this goal?')">
+                <button type="submit" class="btn btn-small btn-danger">Delete</button>
+            </form>
+        </div>
+    </div>
+    <% }) %>
+</div>
+<% } else { %>
+<p>No goals set. <a href="/goals/create">Create one</a></p>
+<% } %>
+`; %>
+<%- include('../layout') %>
+
