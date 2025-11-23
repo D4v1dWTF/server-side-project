@@ -48,6 +48,39 @@ router.post('/transactions', async (req, res) => {
       return res.status(400).json({ error: 'Invalid amount' });
     }
     
+    const User = require('../models/User');
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    let balanceAfter;
+    if (type === 'deposit') {
+      if (accountType === 'current') {
+        user.currentBalance += amt;
+        balanceAfter = user.currentBalance;
+      } else {
+        user.savingsBalance += amt;
+        balanceAfter = user.savingsBalance;
+      }
+    } else {
+      if (accountType === 'current') {
+        if (user.currentBalance < amt) {
+          return res.status(400).json({ error: 'Insufficient balance' });
+        }
+        user.currentBalance -= amt;
+        balanceAfter = user.currentBalance;
+      } else {
+        if (user.savingsBalance < amt) {
+          return res.status(400).json({ error: 'Insufficient balance' });
+        }
+        user.savingsBalance -= amt;
+        balanceAfter = user.savingsBalance;
+      }
+    }
+    
+    await user.save();
+    
     const transaction = new Transaction({
       userId,
       type,
@@ -55,7 +88,7 @@ router.post('/transactions', async (req, res) => {
       amount: amt,
       description: description.trim(),
       category: category || 'Uncategorized',
-      balanceAfter: 0
+      balanceAfter
     });
     
     await transaction.save();

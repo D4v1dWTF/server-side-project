@@ -1,132 +1,170 @@
-<% const title = 'Dashboard'; const body = `
-<div class="dashboard">
-    <h1>Dashboard</h1>
+<%
+const title = 'Dashboard';
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="/dashboard" class="nav-logo">Finance App</a>
+            <div class="nav-menu">
+                <a href="/dashboard">Dashboard</a>
+                <a href="/transactions">Transactions</a>
+                <a href="/budgets">Budgets</a>
+                <a href="/goals">Goals</a>
+                <a href="/categories">Categories</a>
+                <a href="/recurrings">Recurrings</a>
+                <a href="/reminders">Reminders</a>
+                <a href="/summary">Summary</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
     
-    <div class="balance-cards">
-        <div class="card">
-            <h3>Current Account</h3>
-            <p class="balance">$<%= user.currentBalance.toFixed(2) %></p>
-        </div>
-        <div class="card">
-            <h3>Savings Account</h3>
-            <p class="balance">$<%= user.savingsBalance.toFixed(2) %></p>
-        </div>
-        <div class="card">
-            <h3>Total Balance</h3>
-            <p class="balance">$<%= (user.currentBalance + user.savingsBalance).toFixed(2) %></p>
-        </div>
-    </div>
-
-    <div class="dashboard-section">
-        <h2>Update Balances</h2>
-        <form method="POST" action="/dashboard/update-balances" class="inline-form">
-            <div class="form-group">
-                <label>Current Balance</label>
-                <input type="number" name="currentBalance" step="0.01" min="0" value="<%= user.currentBalance %>" required>
-            </div>
-            <div class="form-group">
-                <label>Savings Balance</label>
-                <input type="number" name="savingsBalance" step="0.01" min="0" value="<%= user.savingsBalance %>" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
-    </div>
-
-    <div class="dashboard-section">
-        <h2>Notifications</h2>
-        <% if (notifications && notifications.length > 0) { %>
-        <div class="notifications">
-            <% notifications.forEach(notif => { %>
-            <div class="notification notification-<%= notif.type %>">
-                <p><%= notif.message %></p>
-                <small><%= new Date(notif.createdAt).toLocaleString() %></small>
-            </div>
-            <% }) %>
-        </div>
-        <% } else { %>
-        <p>No notifications</p>
+    <main class="container">
+        <% if (typeof error !== 'undefined' && error) { %>
+        <div class="alert alert-error"><%= error %></div>
         <% } %>
-    </div>
-
-    <div class="dashboard-section">
-        <h2>Savings Goals</h2>
-        <% if (goals && goals.length > 0) { %>
-        <div class="goals-list">
-            <% goals.forEach(goal => { %>
-            <div class="goal-item">
-                <h4><%= goal.description %></h4>
-                <p>Target: $<%= goal.targetAmount.toFixed(2) %> | Progress: $<%= goal.currentProgress.toFixed(2) %></p>
-                <div class="progress-bar">
-                    <div class="progress-fill" style="width: <%= Math.min(100, (goal.currentProgress / goal.targetAmount) * 100) %>%"></div>
+        <% if (typeof success !== 'undefined' && success) { %>
+        <div class="alert alert-success"><%= success %></div>
+        <% } %>
+        
+        <div class="dashboard">
+            <h1>Dashboard</h1>
+            
+            <div class="balance-cards">
+                <div class="card">
+                    <h3>Current Account</h3>
+                    <p class="balance">$<%= user.currentBalance.toFixed(2) %></p>
                 </div>
-                <small>Deadline: <%= new Date(goal.deadline).toLocaleDateString() %></small>
+                <div class="card">
+                    <h3>Savings Account</h3>
+                    <p class="balance">$<%= user.savingsBalance.toFixed(2) %></p>
+                </div>
+                <div class="card">
+                    <h3>Total Balance</h3>
+                    <p class="balance">$<%= (user.currentBalance + user.savingsBalance).toFixed(2) %></p>
+                </div>
             </div>
-            <% }) %>
+
+            <div class="dashboard-section">
+                <h2>Update Balances</h2>
+                <form method="POST" action="/dashboard/update-balances" class="inline-form">
+                    <div class="form-group">
+                        <label>Current Balance</label>
+                        <input type="number" name="currentBalance" step="0.01" min="0" value="<%= user.currentBalance %>" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Savings Balance</label>
+                        <input type="number" name="savingsBalance" step="0.01" min="0" value="<%= user.savingsBalance %>" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Notifications</h2>
+                <% if (notifications && notifications.length > 0) { %>
+                <div class="notifications">
+                    <% notifications.forEach(notif => { %>
+                    <div class="notification notification-<%= notif.type %>">
+                        <p><%= notif.message %></p>
+                        <small><%= new Date(notif.createdAt).toLocaleString() %></small>
+                    </div>
+                    <% }) %>
+                </div>
+                <% } else { %>
+                <p>No notifications</p>
+                <% } %>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Savings Goals</h2>
+                <% if (goals && goals.length > 0) { %>
+                <div class="goals-list">
+                    <% goals.forEach(goal => { %>
+                    <div class="goal-item">
+                        <h4><%= goal.description %></h4>
+                        <p>Target: $<%= goal.targetAmount.toFixed(2) %> | Progress: $<%= goal.currentProgress.toFixed(2) %></p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: <%= Math.min(100, (goal.currentProgress / goal.targetAmount) * 100) %>%"></div>
+                        </div>
+                        <small>Deadline: <%= new Date(goal.deadline).toLocaleDateString() %></small>
+                    </div>
+                    <% }) %>
+                </div>
+                <% } else { %>
+                <p>No goals set. <a href="/goals/create">Create one</a></p>
+                <% } %>
+            </div>
+
+            <% if (budget) { %>
+            <div class="dashboard-section">
+                <h2>Current Budget</h2>
+                <p>Month: <%= budget.monthYear %></p>
+                <p>Budget: $<%= budget.budgetAmount.toFixed(2) %></p>
+                <p>Spent: $<%= budget.currentSpent.toFixed(2) %></p>
+                <p>Remaining: $<%= (budget.budgetAmount - budget.currentSpent).toFixed(2) %></p>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: <%= Math.min(100, (budget.currentSpent / budget.budgetAmount) * 100) %>%"></div>
+                </div>
+            </div>
+            <% } %>
+
+            <div class="dashboard-section">
+                <h2>Recent Transactions</h2>
+                <% if (recentTransactions && recentTransactions.length > 0) { %>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Description</th>
+                            <th>Type</th>
+                            <th>Amount</th>
+                            <th>Account</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% recentTransactions.forEach(t => { %>
+                        <tr>
+                            <td><%= new Date(t.date).toLocaleDateString() %></td>
+                            <td><%= t.description %></td>
+                            <td><%= t.type %></td>
+                            <td class="<%= t.type === 'deposit' ? 'positive' : 'negative' %>">$<%= t.amount.toFixed(2) %></td>
+                            <td><%= t.accountType %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+                <a href="/transactions" class="btn btn-secondary">View All</a>
+                <% } else { %>
+                <p>No transactions yet. <a href="/transactions/create">Create one</a></p>
+                <% } %>
+            </div>
+
+            <div class="dashboard-section">
+                <h2>Recurring Transactions</h2>
+                <% if (upcomingRecurrings && upcomingRecurrings.length > 0) { %>
+                <form method="POST" action="/recurrings/apply">
+                    <button type="submit" class="btn btn-primary">Apply Recurring Transactions</button>
+                </form>
+                <ul>
+                    <% upcomingRecurrings.forEach(r => { %>
+                    <li><%= r.description %> - $<%= r.amount.toFixed(2) %> (<%= r.frequency %>)</li>
+                    <% }) %>
+                </ul>
+                <% } else { %>
+                <p>No recurring transactions. <a href="/recurrings/create">Create one</a></p>
+                <% } %>
+            </div>
         </div>
-        <% } else { %>
-        <p>No goals set. <a href="/goals/create">Create one</a></p>
-        <% } %>
-    </div>
+    </main>
+</body>
+</html>
 
-    <% if (budget) { %>
-    <div class="dashboard-section">
-        <h2>Current Budget</h2>
-        <p>Month: <%= budget.monthYear %></p>
-        <p>Budget: $<%= budget.budgetAmount.toFixed(2) %></p>
-        <p>Spent: $<%= budget.currentSpent.toFixed(2) %></p>
-        <p>Remaining: $<%= (budget.budgetAmount - budget.currentSpent).toFixed(2) %></p>
-        <div class="progress-bar">
-            <div class="progress-fill" style="width: <%= Math.min(100, (budget.currentSpent / budget.budgetAmount) * 100) %>%"></div>
-        </div>
-    </div>
-    <% } %>
-
-    <div class="dashboard-section">
-        <h2>Recent Transactions</h2>
-        <% if (recentTransactions && recentTransactions.length > 0) { %>
-        <table class="data-table">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Type</th>
-                    <th>Amount</th>
-                    <th>Account</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% recentTransactions.forEach(t => { %>
-                <tr>
-                    <td><%= new Date(t.date).toLocaleDateString() %></td>
-                    <td><%= t.description %></td>
-                    <td><%= t.type %></td>
-                    <td class="<%= t.type === 'deposit' ? 'positive' : 'negative' %>">$<%= t.amount.toFixed(2) %></td>
-                    <td><%= t.accountType %></td>
-                </tr>
-                <% }) %>
-            </tbody>
-        </table>
-        <a href="/transactions" class="btn btn-secondary">View All</a>
-        <% } else { %>
-        <p>No transactions yet. <a href="/transactions/create">Create one</a></p>
-        <% } %>
-    </div>
-
-    <div class="dashboard-section">
-        <h2>Recurring Transactions</h2>
-        <% if (upcomingRecurrings && upcomingRecurrings.length > 0) { %>
-        <form method="POST" action="/recurrings/apply">
-            <button type="submit" class="btn btn-primary">Apply Recurring Transactions</button>
-        </form>
-        <ul>
-            <% upcomingRecurrings.forEach(r => { %>
-            <li><%= r.description %> - $<%= r.amount.toFixed(2) %> (<%= r.frequency %>)</li>
-            <% }) %>
-        </ul>
-        <% } else { %>
-        <p>No recurring transactions. <a href="/recurrings/create">Create one</a></p>
-        <% } %>
-    </div>
-</div>
-`; %>
-<%- include('layout') %>
