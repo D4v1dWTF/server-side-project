@@ -7,12 +7,12 @@
 <form method="POST" action="/budgets/create" class="main-form">
     <div class="form-group">
         <label for="monthYear">Month (YYYY-MM)</label>
-        <input type="text" id="monthYear" name="monthYear" pattern="\\d{4}-\\d{2}" placeholder="2025-11" required>
+        <input type="text" id="monthYear" name="monthYear" pattern="\\d{4}-\\d{2}" placeholder="2025-11" required title="Format: YYYY-MM (e.g., 2025-11)">
         <small>Format: YYYY-MM (e.g., 2025-11)</small>
     </div>
     <div class="form-group">
         <label for="budgetAmount">Budget Amount</label>
-        <input type="number" id="budgetAmount" name="budgetAmount" step="0.01" min="0.01" required>
+        <input type="number" id="budgetAmount" name="budgetAmount" step="0.01" min="0.01" placeholder="Enter budget amount (e.g., 2000.00)" required title="Budget amount must be greater than 0">
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>

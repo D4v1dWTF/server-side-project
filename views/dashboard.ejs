@@ -57,12 +57,12 @@ const title = 'Dashboard';
                 <h2>Update Balances</h2>
                 <form method="POST" action="/dashboard/update-balances" class="inline-form">
                     <div class="form-group">
-                        <label>Current Balance</label>
-                        <input type="number" name="currentBalance" step="0.01" min="0" value="<%= user.currentBalance %>" required>
+                        <label>Current Account Balance</label>
+                        <input type="number" name="currentBalance" step="0.01" min="0" value="<%= user.currentBalance %>" placeholder="Enter current account balance" required title="Balance must be 0 or greater">
                     </div>
                     <div class="form-group">
-                        <label>Savings Balance</label>
-                        <input type="number" name="savingsBalance" step="0.01" min="0" value="<%= user.savingsBalance %>" required>
+                        <label>Savings Account Balance</label>
+                        <input type="number" name="savingsBalance" step="0.01" min="0" value="<%= user.savingsBalance %>" placeholder="Enter savings account balance" required title="Balance must be 0 or greater">
                     </div>
                     <button type="submit" class="btn btn-primary">Update</button>
                 </form>

@@ -20,27 +20,19 @@ const title = 'Register';
                 <form method="POST" action="/register">
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" id="username" name="username" required minlength="3" maxlength="30">
+                        <input type="text" id="username" name="username" placeholder="Enter username (3-30 characters)" required minlength="3" maxlength="30" pattern="[A-Za-z0-9_]+" title="Username must be 3-30 characters, letters, numbers, or underscore only">
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
+                        <input type="email" id="email" name="email" placeholder="Enter your email address" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Enter a valid email address">
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required minlength="6">
+                        <input type="password" id="password" name="password" placeholder="Enter password (minimum 6 characters)" required minlength="6" title="Password must be at least 6 characters">
                     </div>
                     <div class="form-group">
                         <label for="confirmPassword">Confirm Password</label>
-                        <input type="password" id="confirmPassword" name="confirmPassword" required minlength="6">
-                    </div>
-                    <div class="form-group">
-                        <label for="currentBalance">Current Account Balance</label>
-                        <input type="number" id="currentBalance" name="currentBalance" step="0.01" min="0" value="0" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="savingsBalance">Savings Account Balance</label>
-                        <input type="number" id="savingsBalance" name="savingsBalance" step="0.01" min="0" value="0" required>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Re-enter password to confirm" required minlength="6" title="Passwords must match">
                     </div>
                     <button type="submit" class="btn btn-primary">Register</button>
                 </form>
@@ -48,5 +40,16 @@ const title = 'Register';
             </div>
         </div>
     </main>
+    <script>
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = this.value;
+            if (password !== confirmPassword) {
+                this.setCustomValidity('Passwords do not match');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+    </script>
 </body>
 </html>

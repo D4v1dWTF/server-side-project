@@ -15,7 +15,7 @@ router.get('/register', (req, res) => {
 // Register handler
 router.post('/register', async (req, res) => {
   try {
-    const { username, email, password, confirmPassword, currentBalance, savingsBalance } = req.body;
+    const { username, email, password, confirmPassword } = req.body;
 
     // Validation
     if (!username || username.trim().length < 3 || username.trim().length > 30) {
@@ -30,11 +30,6 @@ router.post('/register', async (req, res) => {
     if (password !== confirmPassword) {
       return res.render('auth/register', { error: 'Passwords do not match' });
     }
-    const currentBal = parseFloat(currentBalance) || 0;
-    const savingsBal = parseFloat(savingsBalance) || 0;
-    if (currentBal < 0 || savingsBal < 0) {
-      return res.render('auth/register', { error: 'Balances cannot be negative' });
-    }
 
     // Check if user exists
     const existingUser = await User.findOne({ $or: [{ username }, { email }] });
@@ -42,13 +37,13 @@ router.post('/register', async (req, res) => {
       return res.render('auth/register', { error: 'Username or email already exists' });
     }
 
-    // Create user
+    // Create user (balances default to 0)
     const user = new User({
       username: username.trim(),
       email: email.trim().toLowerCase(),
-      password: password, // In production, hash this with bcrypt
-      currentBalance: currentBal,
-      savingsBalance: savingsBal
+      password: password,
+      currentBalance: 0,
+      savingsBalance: 0
     });
     await user.save();
 
