@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Forum - Jolly Beats</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1><a href="/">🎵 Jolly Beats</a></h1>
+      <nav>
+        <a href="/songs">Songs</a>
+        <a href="/playlists">Playlists</a>
+        <a href="/forum">Forum</a>
+        <a href="/logout" class="btn-logout">Logout (<%= user.username %>)</a>
+      </nav>
+    </header>
+
+    <main class="content">
+      <div class="page-header">
+        <h2>💬 Music Forum</h2>
+        <p>Share your thoughts, recommendations, and discuss music with others!</p>
+      </div>
+
+      <!-- Create Post Form -->
+      <div class="create-post-box">
+        <h3>Create a Post</h3>
+        
+        <% if (error) { %>
+          <div class="error-message"><%= error %></div>
+        <% } %>
+
+        <form action="/forum/create" method="POST" class="form">
+          <div class="form-group">
+            <label for="content">Your Message: *</label>
+            <textarea id="content" name="content" rows="4" required maxlength="500" placeholder="What's on your mind about music?"></textarea>
+            <small>Maximum 500 characters</small>
+          </div>
+
+          <div class="form-group">
+            <label for="songId">Related Song (optional):</label>
+            <select id="songId" name="songId">
+              <option value="">No related song</option>
+              <% songs.forEach(song => { %>
+                <option value="<%= song._id %>"><%= song.title %> - <%= song.artist %></option>
+              <% }); %>
+            </select>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Post</button>
+        </form>
+      </div>
+
+      <!-- Posts List -->
+      <div class="posts-section">
+        <h3>Recent Posts</h3>
+        
+        <% if (posts.length === 0) { %>
+          <p class="no-data">No posts yet. Be the first to share your thoughts!</p>
+        <% } else { %>
+          <div class="posts-list">
+            <% posts.forEach(post => { %>
+              <div class="post-card">
+                <div class="post-header">
+                  <span class="post-author">👤 <%= post.author.username %></span>
+                  <span class="post-date"><%= new Date(post.createdAt).toLocaleString() %></span>
+                </div>
+                
+                <div class="post-content">
+                  <p><%= post.content %></p>
+                  
+                  <% if (post.song) { %>
+                    <div class="post-song-ref">
+                      🎵 Related to: <strong><%= post.song.title %></strong> by <%= post.song.artist %>
+                    </div>
+                  <% } %>
+                </div>
+                
+                <div class="post-actions">
+                  <% if (post.author._id.toString() === user.id) { %>
+                    <form action="/forum/delete/<%= post._id %>" method="POST" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                      <button type="submit" class="btn-small btn-danger">Delete</button>
+                    </form>
+                  <% } %>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Jolly Beats</p>
+    </footer>
+  </div>
+</body>
+</html>
+

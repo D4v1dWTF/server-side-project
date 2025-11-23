@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jolly Beats - Share Your Music</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div class="container">
+    <header class="hero">
+      <h1>🎵 Jolly Beats</h1>
+      <p class="tagline">Upload, Share, and Discover Amazing Music</p>
+    </header>
+
+    <main class="content">
+      <div class="welcome-box">
+        <h2>Welcome to Jolly Beats!</h2>
+        <p>A platform where music lovers can share their favorite songs with the world.</p>
+        
+        <div class="features">
+          <div class="feature">
+            <h3>📤 Upload Music</h3>
+            <p>Share your favorite songs with the community</p>
+          </div>
+          <div class="feature">
+            <h3>🎧 Play Songs</h3>
+            <p>Listen to music uploaded by other users</p>
+          </div>
+          <div class="feature">
+            <h3>📝 Create Playlists</h3>
+            <p>Organize your favorite songs into playlists</p>
+          </div>
+          <div class="feature">
+            <h3>💬 Discuss Music</h3>
+            <p>Share your thoughts and recommendations</p>
+          </div>
+        </div>
+
+        <div class="cta-buttons">
+          <% if (!user) { %>
+            <a href="/login" class="btn btn-primary">Login</a>
+            <a href="/register" class="btn btn-secondary">Register</a>
+          <% } else { %>
+            <a href="/songs" class="btn btn-primary">Browse Songs</a>
+            <a href="/playlists" class="btn btn-secondary">My Playlists</a>
+            <a href="/forum" class="btn btn-secondary">Forum</a>
+          <% } %>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 Jolly Beats</p>
+    </footer>
+  </div>
+</body>
+</html>
+
