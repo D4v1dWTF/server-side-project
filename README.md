@@ -1,3 +1,8 @@
+Recomtributed in new repository: 
+https://github.com/D4v1dWTF/Jolly-Beats
+
+
+
 # Jolly Beats - Music Sharing Platform
 
 COMP3810SEF Group Project
